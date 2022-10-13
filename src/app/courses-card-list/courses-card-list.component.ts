@@ -9,18 +9,14 @@ import { Course } from '../model/course';
   templateUrl: './courses-card-list.component.html',
   styleUrls: ['./courses-card-list.component.scss']
 })
-export class CoursesCardListComponent implements OnInit {
+export class CoursesCardListComponent {
   @Input() courses: Course[] = []
   @Output() private courseChanged = new EventEmitter();
 
   constructor(
     private dialog: MatDialog) { }
 
-  ngOnInit() {
-  }
-
   editCourse(course: Course) {
-
     const dialogConfig = new MatDialogConfig();
 
     dialogConfig.disableClose = true;

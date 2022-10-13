@@ -1,11 +1,7 @@
 import {Component, OnInit} from '@angular/core';
-import {Course, sortCoursesBySeqNo} from '../model/course';
-import {interval, noop, Observable, of, throwError, timer} from 'rxjs';
-import {catchError, delay, delayWhen, filter, finalize, map, retryWhen, shareReplay, tap} from 'rxjs/operators';
-import { CoursesService } from '../service/courses.service';
-import { LoadingService } from '../loading/loading.service';
-import { MessagesService } from '../messages/messages.service';
-
+import {Course,} from '../model/course';
+import { Observable} from 'rxjs';
+import { CoursesStore } from '../coursesStore';
 
 @Component({
   selector: 'home',
@@ -13,15 +9,11 @@ import { MessagesService } from '../messages/messages.service';
   styleUrls: ['./home.component.css']
 })
 export class HomeComponent implements OnInit {
-
   beginnerCourses$: Observable<Course[]>;
-
   advancedCourses$: Observable<Course[]>;
 
   constructor(
-    private coursesService: CoursesService,
-    public loadingService: LoadingService,
-    public messagesService: MessagesService) {
+    private coursesStore: CoursesStore) {
   }
 
   ngOnInit() {
@@ -29,30 +21,7 @@ export class HomeComponent implements OnInit {
   }
 
     reloadCourses() {
-
-      const courses$ = this.coursesService.loadAllCourses()
-        .pipe(
-          map(courses => courses.sort(sortCoursesBySeqNo)),
-          catchError(err => {
-            const msg = 'Could not load the courses';
-            this.messagesService.showErrors(msg);
-            console.log(msg, err);
-            return throwError(err);
-          })
-        );
-
-      const loadCourses$ = this.loadingService.showLoaderUntilCompleted(courses$);
-
-      courses$.subscribe(val => console.log(val));
-
-      this.beginnerCourses$ = loadCourses$
-        .pipe(
-          map(courses => courses.filter(course => course.category == 'BEGINNER'))
-      );
-
-      this.advancedCourses$ = loadCourses$
-        .pipe(
-          map(courses => courses.filter(course => course.category == 'ADVANCED'))
-      );
+      this.beginnerCourses$ = this.coursesStore.filterByCategory ('BEGINNER');
+      this.advancedCourses$ = this.coursesStore.filterByCategory ('ADVANCED');
   }
 }

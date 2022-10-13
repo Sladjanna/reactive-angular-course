@@ -9,9 +9,7 @@ import { Course } from "../model/course";
 })
 
 export class CoursesService {
-
   constructor(private http: HttpClient) {
-
   }
 
   loadAllCourses() : Observable<Course[]>{
