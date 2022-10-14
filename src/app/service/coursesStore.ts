@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, TaggedTemplateExpr } from "@angular/compiler";
 import { Injectable } from "@angular/core";
 import { BehaviorSubject, Observable, throwError } from "rxjs";
 import { catchError, map, shareReplay, tap } from "rxjs/operators";
-import { LoadingService } from "./loading/loading.service";
-import { MessagesService } from "./messages/messages.service";
-import { Course, sortCoursesBySeqNo } from "./model/course";
+import { LoadingService } from "../loading/loading.service";
+import { MessagesService } from "../messages/messages.service";
+import { Course, sortCoursesBySeqNo } from "../model/course";
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 import {Component, OnInit} from '@angular/core';
 import {Course,} from '../model/course';
 import { Observable} from 'rxjs';
-import { CoursesStore } from '../coursesStore';
+import { CoursesStore } from '../service/coursesStore';
 
 @Component({
   selector: 'home',

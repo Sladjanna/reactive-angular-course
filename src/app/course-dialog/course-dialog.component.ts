@@ -8,7 +8,7 @@ import { CoursesService } from '../service/courses.service';
 import { LoadingService } from '../loading/loading.service';
 import { MessagesService } from '../messages/messages.service';
 import { throwError } from 'rxjs';
-import { CoursesStore } from '../coursesStore';
+import { CoursesStore } from '../service/coursesStore';
 @Component({
     selector: 'course-dialog',
     templateUrl: './course-dialog.component.html',
