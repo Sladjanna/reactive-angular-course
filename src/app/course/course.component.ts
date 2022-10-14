@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {Course} from '../model/course';
 import {
@@ -25,7 +25,8 @@ interface CourseData {
 @Component({
   selector: 'course',
   templateUrl: './course.component.html',
-  styleUrls: ['./course.component.css']
+  styleUrls: ['./course.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CourseComponent implements OnInit {
   data$: Observable<CourseData>
@@ -36,9 +37,15 @@ export class CourseComponent implements OnInit {
 
   ngOnInit() {
     const courseId = parseInt(this.route.snapshot.paramMap.get('courseId'));
-    const course$ = this.coursesService.loadCourseById(courseId);
+    const course$ = this.coursesService.loadCourseById(courseId)
+    .pipe(
+      startWith(null)
+    );
 
-    const lessons$ = this.coursesService.loadAllCourseLessons(courseId);
+    const lessons$ = this.coursesService.loadAllCourseLessons(courseId)
+    .pipe(
+      startWith(null)
+    );
 
     this.data$ = combineLatest([course$, lessons$])
       .pipe(
